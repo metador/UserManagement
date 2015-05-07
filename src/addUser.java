@@ -88,10 +88,11 @@ public class addUser extends HttpServlet {
 			out.println("<input type=\"hidden\" name=\"user\" value=" + user + ">");
 			// Output stream to STDOUT
 
-			out.println("<br><br><div class='error_head' style='height:40px;'><span>Privileges: </span>"
+			out.println("<br><br><div class='error_head' style='height:40px;border-radius: 8px 8px 8px 8px;'><span>Privileges: </span>"
 			+ "<button class='cart_btn' type='submit'>"
 			+ "<img src='http://goo.gl/wwTkAq?gdriveurl' height='24' width='24'>Next</button></div><br>");
-			out.println("<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
+			out.println("<span style='padding-left:20%;'>Grant or Revoke Privileges: </span><br>"
+					+ "<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
 			grant = request.getParameter("prev");
 			if (grant == null) {
 				out.println(" <td> <input type=\"radio\" name=\"prev\" value=\"grant\" checked>Grant</td>");
@@ -108,7 +109,8 @@ public class addUser extends HttpServlet {
 			}
 			out.print("</tr></table>");
 			
-			out.println("<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
+			out.println("<span style='padding-left:20%;'>Select Aspect of Privileges: </span><br>"
+					+ "<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
 			all = request.getParameter("all");
 			if (all == null)
 				out.println(" <td> <input type=\"checkbox\" name=\"all\" value=\"*\">All</td>");
@@ -156,13 +158,12 @@ public class addUser extends HttpServlet {
 			String mode = request.getParameter("mode");
 			resultDB = myDBStm.executeQuery("show databases");
 			// Perform the query
-			out.println(" <table>");
-			out.print("<tr>Choose The Database</tr>");
+			out.println("<span style='padding-left:20%;'>Choose the Database: </span><br>"
+					+ "<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
 			int count = 0;
-			out.println(" <tr>");
 			String temp = null;
 			temp = request.getParameter("dbname");
-			out.println(" <td> <input type=\"radio\" name=\"dbname\" value=\"*\" >All</td>");
+			out.println(" <td><input type=\"radio\" name=\"dbname\" value=\"*\" >All</td>");
 			while (resultDB.next()) {
 
 				dbName = resultDB.getString(1);
@@ -186,7 +187,7 @@ public class addUser extends HttpServlet {
 				}
 
 			}
-			out.println(" </tr>");
+			out.println("</tr></table>");
 			int count_tb = 0;
 
 			// Table Names
@@ -199,10 +200,11 @@ public class addUser extends HttpServlet {
 					dbName = request.getParameter("dbname");
 
 					if (dbName != null) {
+						out.println("<span style='padding-left:20%;'>Select Database: </span><br>"
+								+ "<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
 						if (dbName.contains("*"))
 							privilegesOnDB(request, response);
-						// out.println("</tr> <tr>tables  selected databases<br><tr>");
-						out.println("  <input type=\"hidden\" name=\"dbname\" value="
+						out.println("<input type=\"hidden\" name=\"dbname\" value="
 								+ dbName + ">");
 						mySWStm.execute("use " + dbName);
 						// Create and execute an SQL statement to get all the
@@ -212,12 +214,10 @@ public class addUser extends HttpServlet {
 								.executeQuery("show tables");
 						ResultSet ColData;
 						Statement myColStm;
-						out.println("<td>");
 						count_tb = 0;
-						out.println(" <tr>");
 						temp = null;
 						temp = request.getParameter("tblname");
-						out.println(" <td> <input type=\"radio\" name=\"tblname\" value=\"*\" >All</td>");
+						out.println("<td><input type=\"radio\" name=\"tblname\" value=\"*\" >All</td>");
 
 						while (resultTB.next()) {
 							tblName = resultTB.getString(1);
@@ -234,7 +234,7 @@ public class addUser extends HttpServlet {
 
 						}
 
-						out.println(" </tr>");
+						out.println("</tr></table>");
 						// break;
 					}
 				} while (count >= 0);
@@ -247,7 +247,8 @@ public class addUser extends HttpServlet {
 					Statement mySWStm = connection.createStatement();
 					tblName = request.getParameter("tblname");
 					if (tblName != null) {
-						out.println("</tr><tr><td> columes for selected databases for selected databases</tr></td>");
+						out.println("<span style='padding-left:20%;'>Columns for Selected Database: </span><br>"
+								+ "<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
 						if (tblName.contains("*"))
 							privilegesOnDB(request, response, database);
 						mySWStm.execute("use " + database);
@@ -256,37 +257,29 @@ public class addUser extends HttpServlet {
 						Statement myTBStm = connection.createStatement();
 						ResultSet resultTB = myTBStm
 								.executeQuery("show tables");
-
-						out.println(" <tr>");
-
 						tblName = request.getParameter("tblname");
-						out.println(" </tr>");
 						myTBStm = connection.createStatement();
 						ResultSet ColData = myTBStm.executeQuery("describe "
 								+ tblName);
-
 						Statement myColStm;
-						// out.println("<td>" );
 						int count_col = 0;
-
-						out.println(" <tr>");
-						out.println("<td> <input type=\"radio\" name=\"colname\" value=\"*\">All</td>");
+						out.println("<td><input type=\"radio\" name=\"colname\" value=\"*\">All</td>");
 
 						while (ColData.next()) {
 							count_col++;
 							colName = ColData.getString(1);
 
-							out.println("<td> <input type=\"radio\" name=\"colname\" value="
+							out.println("<td><input type=\"radio\" name=\"colname\" value="
 									+ colName + ">" + colName + "</td>");
 
 							// out.println(
 							// "</td></tr> <tr><td> <br></td></tr> ");
 
 						}
-						out.println(" </tr>");
+						out.println(" </tr></table>");
 					}
 				}
-				out.println("</table> ");
+				
 				colName = request.getParameter("colname");
 				if (colName != null) {
 					if (colName.contains("*")) {
@@ -304,7 +297,7 @@ public class addUser extends HttpServlet {
 
 					if (dbName != null) {
 
-						out.println("  <input type=\"hidden\" name=\"dbname\" value="
+						out.println("<input type=\"hidden\" name=\"dbname\" value="
 								+ dbName + ">");
 						mySWStm.execute("use " + dbName);
 						// Create and execute an SQL statement to get all the
@@ -314,14 +307,13 @@ public class addUser extends HttpServlet {
 								.executeQuery("show procedure status");
 						ResultSet ColData;
 						Statement myColStm;
-						out.println("<td>");
+						out.println("<span style='padding-left:20%;'>Procedures: </span><br>"
+								+ "<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
 						count_tb = 0;
-						out.println(" <tr><td> Procedure </td></tr>");
-						out.println(" <tr>");
 						temp = null;
 						temp = request.getParameter("proc");
 
-						out.println(" <td> <input type=\"radio\" name=\"proc\" value=\"*\" >All</td>");
+						out.println(" <td><input type=\"radio\" name=\"proc\" value=\"*\" >All</td>");
 
 						while (resultRT.next()) {
 							rtName = resultRT.getString(2);
@@ -338,19 +330,18 @@ public class addUser extends HttpServlet {
 
 						}
 
-						out.println(" </tr>");
+						out.println(" </tr></table>");
+						
 						Statement myfunct = connection.createStatement();
 						ResultSet resultFt = myfunct
 								.executeQuery("show function status");
-
-						out.println("<td>");
 						count_tb = 0;
-						out.println(" <tr><td> Function </td></tr>");
-						out.println(" <tr>");
+						out.println("<span style='padding-left:20%;'>Functions: </span><br>"
+								+ "<table  cellpadding='10' id='cart_res'><tr style='background-color:#00CCFF;' align='left'>");
 						temp = null;
 						temp = request.getParameter("proc");
 
-						out.println(" <td> <input type=\"radio\" name=\"func\" value=\"*\" >All</td>");
+						out.println(" <td><input type=\"radio\" name=\"func\" value=\"*\" >All</td>");
 
 						while (resultFt.next()) {
 							ftName = resultFt.getString(2);
@@ -367,7 +358,7 @@ public class addUser extends HttpServlet {
 
 						}
 
-						out.println(" </tr>");
+						out.println("</tr></table>");
 						// break;
 					}
 				} while (count >= 0);

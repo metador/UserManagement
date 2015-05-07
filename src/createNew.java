@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/createNew")
 public class createNew extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	headerFooter base = new headerFooter();
 	Connection connection;
     String database=" ";
     private static String User = null;
@@ -48,16 +49,13 @@ public class createNew extends HttpServlet {
 
 			 String message = request.getParameter("message");
 				// Create and execute an SQL statement to get all the database names
+				out.println(base.header());
 				out.println("<HEAD><TITLE>Create New User</TITLE></HEAD>");
-				
-
-				 out.println("<div id='login'><div style='float:left;width:35%'>"
-				 		+ " "
-						 + "<br>"
-				 		+ "<div style='float:right;width:55%'><H2 ALIGN=\"CENTER\">Login</H2><FORM =\"/UserManagement/\" METHOD=\"POST\">"
+				 out.println("<br><br><br><div id='login'>"
+				 		+ "<H2 ALIGN=\"CENTER\">Login</H2><FORM =\"/UserManagement/\" METHOD=\"POST\">"
 				 		+ "<center> Username: <INPUT id='login_field' TYPE='TEXT' NAME=\"Username\"><BR><Br> Password: <INPUT id='login_field' TYPE=\"PASSWORD\" NAME=\"password\"></center><BR><BR><BR>"
 				 		+ " <CENTER><button class='login_btn' type='submit' style='font-size:20px;width:60%;'>"
-					+ "<img src='http://goo.gl/wwTkAq?gdriveurl' height='24' width='24'>Confirm</button></center></div></div></div>");
+					+ "<img src='http://goo.gl/wwTkAq?gdriveurl' height='24' width='24'>Confirm</button></center></div>");
 
 				 if(message !=null)
 					 out.println("<br><div><center><span style=\"color:red;fonts-size:50px;font-weight:bold;\">" + message + "</span></center></div>");
