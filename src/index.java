@@ -89,8 +89,10 @@ public class index extends HttpServlet {
 				
 			}
 			out.println(  "</table> ");
+			
 			myDBStm = connection.createStatement();
 			ResultSet rs_user = myDBStm.executeQuery("select * from mysql.user");
+			out.print("<a href=/UserManagement/createNew > Create a New User <a> ");
 			out.print("<table><tr><td>Users  </td><td>  Select</td><td>  insert </td><td>  Delete </td><td>  Grant </td><td><tr>  ");
 			while(rs_user.next()){
 				String user = rs_user.getString(2);
