@@ -1,4 +1,4 @@
-package createNew;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,7 +44,7 @@ public class createNew extends HttpServlet {
 			
 
 			 // Connect to MySQL as root
-			connection = DriverManager.getConnection("jdbc:mysql://","root", "decodder");
+			connection = DriverManager.getConnection("jdbc:mysql://","testuser", "testpass");
 
 			 String message = request.getParameter("message");
 				// Create and execute an SQL statement to get all the database names
